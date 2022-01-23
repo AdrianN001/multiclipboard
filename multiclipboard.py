@@ -33,6 +33,15 @@ def list_item(file_path: str) -> None:
 
 def load_item(key: str) -> None: 
     clipboard.copy(READ_JSON[key]) 
+
+
+def delete_key(path, key:str) -> None: 
+     with open(path, 'w') as file:
+        READ_JSON.pop(key)
+
+        file.write(
+             json.dumps(READ_JSON) 
+            )
         
 
 if len(sys.argv) == 2: 
@@ -46,14 +55,21 @@ if len(sys.argv) == 2:
         
         case "load":
             key = input('Please, give me a key \n >>> ')
-            load_item(key = key)
+            try:
+                load_item(key = key)
+            except:
+                print("ERROR")
 
         case "list":
             with open(STORAGE, 'r') as file:
                 list_item(file)
         
         case "delete": 
-            os.remove(STORAGE)
+            key = input('Please, give me a key \n >>> ')
+            try:
+                delete_key(STORAGE,key = key)
+            except: 
+                print("ERROR")
 
 
         case _:
